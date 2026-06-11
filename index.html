@@ -1,178 +1,530 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepRefine-Skill | Documentation</title>
-    <style>
-        /* 全局极简/暗黑主题变量 */
-        :root {
-            --bg-color: #0d1117;
-            --text-color: #c9d1d9;
-            --heading-color: #e6edf3;
-            --sidebar-bg: #010409;
-            --border-color: #30363d;
-            --accent-color: #58a6ff;
-            --code-bg: #161b22;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DeepRefine-Skill project page for GitHub Pages.">
+  <title>DeepRefine-Skill</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg2: #10182b;
+      --panel: rgba(16, 24, 43, 0.78);
+      --text: #e8edff;
+      --muted: #a7b1cf;
+      --line: rgba(158, 174, 224, 0.22);
+      --brand: #7ea7ff;
+      --brand2: #7df0d0;
+      --radius: 16px;
+      --nav-bg: rgba(7, 11, 20, 0.7);
+      --nav-line: rgba(126,167,255,0.15);
+      --bg-spot-1: rgba(126,167,255,0.3);
+      --bg-spot-2: rgba(125,240,208,0.18);
+      --toggle-bg: rgba(10, 17, 34, 0.72);
+      --toggle-text: #dce6ff;
+      --toggle-border: rgba(158, 174, 224, 0.35);
+    }
+    :root[data-theme="light"] {
+      --bg: #f6f8fc;
+      --bg2: #edf2fb;
+      --panel: rgba(255, 255, 255, 0.92);
+      --text: #17233b;
+      --muted: #50617f;
+      --line: rgba(87, 108, 150, 0.24);
+      --nav-bg: rgba(246, 248, 252, 0.86);
+      --nav-line: rgba(90, 113, 160, 0.28);
+      --bg-spot-1: rgba(126,167,255,0.2);
+      --bg-spot-2: rgba(125,240,208,0.14);
+      --toggle-bg: rgba(255, 255, 255, 0.9);
+      --toggle-text: #1f2d48;
+      --toggle-border: rgba(87, 108, 150, 0.32);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at 15% -5%, var(--bg-spot-1), transparent 32%),
+        radial-gradient(circle at 82% 0%, var(--bg-spot-2), transparent 28%),
+        var(--bg);
+    }
+    a { color: inherit; text-decoration: none; }
+    code {
+      padding: 0.12em 0.36em;
+      border: 1px solid rgba(158, 174, 224, 0.22);
+      border-radius: 6px;
+      background: rgba(148, 163, 184, 0.16);
+      color: #dbe7ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+      font-size: 0.92em;
+    }
+    :root[data-theme="light"] code {
+      border-color: rgba(87, 108, 150, 0.22);
+      background: rgba(100, 116, 139, 0.12);
+      color: #1f2d48;
+    }
+    .wrap { width: min(1100px, 92vw); margin: 0 auto; }
+    .nav {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(10px);
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--nav-line);
+    }
+    .nav-inner {
+      min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .brand { font-weight: 700; }
+    .brand span { color: var(--brand2); }
+    .nav-links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.95rem; color: var(--muted); }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .theme-toggle {
+      border: 1px solid var(--toggle-border);
+      background: var(--toggle-bg);
+      color: var(--toggle-text);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .theme-toggle:hover { transform: translateY(-1px); opacity: 0.95; }
 
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            line-height: 1.6;
-        }
+    .hero { padding: 72px 0 46px; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .kicker {
+      display: inline-block;
+      border: 1px solid rgba(125,240,208,0.35);
+      color: #c7fff0;
+      background: rgba(125,240,208,0.08);
+      border-radius: 999px;
+      font-size: 0.84rem;
+      padding: 5px 12px;
+      margin-bottom: 14px;
+    }
+    h1 { margin: 0; font-size: clamp(1.9rem, 4.8vw, 3rem); line-height: 1.1; letter-spacing: -0.02em; }
+    .hero p { color: var(--muted); margin: 16px auto 18px; max-width: 66ch; }
+    .hero-center {
+      text-align: center;
+      padding: 36px 28px;
+      background: transparent;
+      border: 0;
+    }
+    .logo-ascii {
+      display: inline-block;
+      margin: 4px auto 18px;
+      padding: 0;
+      text-align: left;
+      overflow-x: auto;
+      max-width: 100%;
+      border: 0;
+      background: transparent;
+      color: #0ecf98;
+      font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-weight: 900;
+      font-size: clamp(0.48rem, 1.05vw, 0.94rem);
+      letter-spacing: -0.04em;
+      line-height: 0.96;
+      text-shadow:
+        -1px 0 0 rgba(134, 255, 219, 0.55),
+        1px 0 0 rgba(0, 95, 72, 0.55),
+        0 -1px 0 rgba(134, 255, 219, 0.45),
+        0 1px 0 rgba(0, 95, 72, 0.55);
+      filter:
+        drop-shadow(0 0 6px rgba(14, 207, 152, 0.35))
+        drop-shadow(0 0 18px rgba(14, 207, 152, 0.18));
+    }
+    :root[data-theme="light"] .logo-ascii {
+      background: transparent;
+      color: #08a877;
+      text-shadow:
+        -1px 0 0 rgba(128, 226, 200, 0.5),
+        1px 0 0 rgba(5, 119, 88, 0.42),
+        0 -1px 0 rgba(128, 226, 200, 0.42),
+        0 1px 0 rgba(5, 119, 88, 0.42);
+      filter:
+        drop-shadow(0 0 5px rgba(8, 168, 119, 0.18))
+        drop-shadow(0 0 14px rgba(8, 168, 119, 0.12));
+    }
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 14px; }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 16px;
+      border: 2px solid #dee3ee;
+      font-weight: 600;
+      font-size: 0.95rem;
+      background: #f4f6fb;
+      color: #1b2436;
+    }
+    .btn.primary {
+      color: #04140f;
+      border-color: #0ab17a;
+      background: #0ab17a;
+    }
+    .badges {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      border: 1px solid #4b5262;
+      border-radius: 4px;
+      overflow: hidden;
+      font-size: 0.9rem;
+    }
+    .badge .k {
+      background: #4f535d;
+      color: #f3f4f9;
+      padding: 4px 9px;
+    }
+    .badge .v {
+      color: #071324;
+      padding: 4px 9px;
+      font-weight: 700;
+    }
+    .badge.release .v { background: #41e7ca; }
+    .badge.stars .v { background: #f2bd22; }
+    .badge.license .v { background: #eceff7; color: #222938; }
 
-        a { color: var(--accent-color); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        
-        /* 侧边栏样式 */
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            height: 100vh;
-            position: fixed;
-            padding: 30px 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
-        .sidebar h2 {
-            font-size: 1.2rem;
-            color: var(--heading-color);
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar li { margin-bottom: 12px; font-size: 0.95rem; }
+    section { padding: 14px 0 28px; }
+    h2 { margin: 0 0 10px; font-size: 1.55rem; letter-spacing: -0.01em; }
+    .sub { color: var(--muted); margin: 0 0 14px; }
+    .grid { display: grid; gap: 12px; grid-template-columns: repeat(12, 1fr); }
+    .card {
+      grid-column: span 6;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .card h3 { margin: 0 0 8px; }
+    .card p, .card li { color: var(--muted); }
+    .card ul { margin: 8px 0 0; padding-left: 18px; }
 
-        /* 主体内容区 */
-        .main-content {
-            margin-left: 260px;
-            padding: 50px;
-            max-width: 900px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        h1, h2, h3 {
-            color: var(--heading-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.3em;
-            margin-top: 1.5em;
-        }
-        h1 { margin-top: 0; font-size: 2.2rem; }
-        
-        /* 代码块样式 */
-        code {
-            background-color: var(--code-bg);
-            padding: 0.2em 0.4em;
-            border-radius: 6px;
-            font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 0.9em;
-        }
-        pre {
-            background-color: var(--code-bg);
-            padding: 16px;
-            border-radius: 6px;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-        }
-        pre code { background-color: transparent; padding: 0; }
+    .terminal {
+      margin-top: 12px;
+      background: linear-gradient(150deg, rgba(8,16,31,0.95), rgba(5,10,20,0.95));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #c2f2e6;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .terminal.hl { white-space: normal; line-height: 1.8; }
+    .terminal .line { display: block; white-space: pre; }
+    .terminal .cmd { color: #27e7b2; font-weight: 700; }
+    .terminal .arg { color: #d2dae8; }
+    .terminal .str { color: #ffbe5c; }
+    .terminal .comment { color: #8a96ad; font-style: italic; }
 
-        /* 按钮与表格 */
-        .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            background-color: #238636;
-            color: #fff;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .badge:hover { text-decoration: none; background-color: #2ea043; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; }
-        th { background-color: var(--code-bg); color: var(--heading-color); }
-    </style>
+    .setup-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .setup-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .setup-item h3 { margin: 0 0 8px; font-size: 1rem; }
+    .setup-item p { margin: 0; color: var(--muted); font-size: 0.94rem; }
+
+    .command-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(7, 11, 20, 0.38);
+      border: 1px solid var(--line);
+      font-size: 0.98rem;
+    }
+    .command-table th,
+    .command-table td {
+      border: 1px solid var(--line);
+      padding: 14px 18px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    .command-table th {
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-align: center;
+    }
+    .command-table td:last-child { color: var(--muted); }
+    .command-table code {
+      display: inline-block;
+      font-size: 0.95rem;
+    }
+
+    .steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+    .step {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .step b {
+      display: inline-flex; width: 26px; height: 26px; align-items: center; justify-content: center;
+      border-radius: 50%; color: #061024;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      margin-bottom: 6px;
+    }
+    .step p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .credits-wrap {
+      margin-top: 24px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      padding: 30px 0 16px;
+    }
+    .credits-inner {
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+      color: var(--muted);
+    }
+    .credits-inner h3 {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .credits-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+    .credits-list li { margin: 6px 0; }
+    .credits-list a { color: #59d6b5; }
+    .meta-footer {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+    .meta-footer a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    @media (max-width: 920px) {
+      .steps { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .card { grid-column: span 12; }
+      .setup-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .steps { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+    }
+  </style>
 </head>
 <body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <div class="brand">DeepRefine<span>-Skill</span></div>
+      <div class="nav-actions">
+        <div class="nav-links">
+          <a href="#overview">Overview</a>
+          <a href="#modes">Modes</a>
+          <a href="#quickstart">Quick Start</a>
+          <a href="#commands">Commands</a>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme"></button>
+      </div>
+    </div>
+  </nav>
 
-    <!-- 侧边导航栏 -->
-    <nav class="sidebar">
-        <h2>⚙️ DeepRefine-Skill</h2>
-        <ul>
-            <li><a href=" ">About Project</a ></li>
-            <li><a href="#installation">Installation</a ></li>
-            <li><a href="#quick-start">Quick Start</a ></li>
-            <li><a href="#commands">Commands Overview</a ></li>
-            <li style="margin-top: 30px;">
-                <a href="https://github.com/HKUST-KnowComp/DeepRefine-Skill" target="_blank">
-                    ↗ View on GitHub
-                </a >
-            </li>
-        </ul>
-    </nav>
+  <main class="wrap">
+    <section class="hero" id="overview">
+      <div class="panel hero-center">
+        <pre class="logo-ascii" aria-label="DeepRefine ASCII logo">██████╗ ███████╗███████╗██████╗ ██████╗ ███████╗███████╗██╗███╗   ██╗███████╗
+██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝██║████╗  ██║██╔════╝
+██║  ██║█████╗  █████╗  ██████╔╝██████╔╝█████╗  █████╗  ██║██╔██╗ ██║█████╗  
+██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══██╗██╔══╝  ██╔══╝  ██║██║╚██╗██║██╔══╝  
+██████╔╝███████╗███████╗██║     ██║  ██║███████╗██║     ██║██║ ╚████║███████╗
+╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═══╝╚══════╝</pre>
+        <h1>Evolve your LLM-Wiki from Interaction History.</h1>
+        <p>
+            DeepRefine-Skill plugs into agent workflows and use a single command <code>/deeprefine</code> in your agent CLI to refine and evolve your LLM-Wiki.
+        </p>
+        <div class="btns">
+          <a class="btn primary" href="https://pypi.org/project/deeprefine-cli/" target="_blank" rel="noopener">Install</a>
+          <a class="btn" href="https://github.com/HKUST-KnowComp/DeepRefine-Skill" target="_blank" rel="noopener">Source on GitHub</a>
+          <a class="btn" href="#quickstart">Quick Start</a>
+        </div>
+        <div class="badges">
+          <div class="badge release"><span class="k">release</span><span class="v">v0.1.7</span></div>
+          <div class="badge stars"><span class="k">python</span><span class="v">3.10+</span></div>
+          <div class="badge license"><span class="k">license</span><span class="v">MIT</span></div>
+        </div>
+      </div>
+    </section>
 
-    <!-- 核心文档内容 -->
-    <main class="main-content">
-        <h1 id="about">DeepRefine-Skill</h1>
-        <p>An agent skill to evolve the quality of <strong>LLM-Wiki (Graphify)</strong> at test time. Maintained by HKUST-KnowComp.</p >
-        <a href="https://github.com/HKUST-KnowComp/DeepRefine-Skill" class="badge">Star us on GitHub</a >
+    <section id="modes">
+      <h2>What DeepRefine Does?</h2>
+      <p>Suppose you have constructed a LLM-Wiki (e.g., Graphify) knowledge base, and you have interacted with it for some days. Then DeepRefine will make use of your logged queries to refine and evolve your LLM-Wiki based on the interaction history.</p>
+      <p class="sub">You can either use DeepRefine in-agent usage (e.g., Cursor, Codex, etc.) or DeepRefine CLI with FAISS index and API/vLLM.</p>
+      <div class="grid">
+        <article class="card">
+          <h3>For Agent CLI</h3>
+          <p>Trigger with <code>/deeprefine</code> in your agent CLI.</p>
+          <ul>
+            <li>Uses your current chat model.</li>
+            <li>By skill, no original <a href="https://github.com/HKUST-KnowComp/DeepRefine" target="_blank" rel="noopener">DeepRefine</a> code base setup needed.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>For Terminal CLI</h3>
+          <p>Run with <code>deeprefine refine</code> in your terminal CLI.</p>
+          <ul>
+            <li>Requires original <a href="https://github.com/HKUST-KnowComp/DeepRefine" target="_blank" rel="noopener">DeepRefine</a> code base in environment.</li>
+            <li>Supports third-party API providers or local vLLM endpoints.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-        <h2 id="installation">📦 Installation</h2>
-        <p>Follow these steps to set up the repository on your local machine:</p >
-        <pre><code># 1. Clone the repository
-git clone https://github.com/HKUST-KnowComp/DeepRefine-Skill.git
+    <section id="quickstart">
+      <h2>Install & Quick Start</h2>
+      <p class="sub">For in-agent usage, follow the quick start below.</p>
+        <article class="setup-item" id="install">
+          <h3>Install Packages</h3>
+          <p>Install packages in your Python environment: <code>pip install deeprefine-cli graphify</code>.</p>
+        </article>
+        <br>
+        <article class="setup-item" id="install">
+            <h3>Install Agent Skills [Cursor]</h3>
+            <p>At your KB project root, run: <code>graphify cursor install</code> and <code>deeprefine cursor install</code>.</p>
+          </article>
+          <br>
+     <p class="sub">Then run the following commands in your agent CLI to run a simple example.</p>
+      <div class="terminal hl">
+        <span class="line"><span class="cmd">/graphify</span> <span class="arg">.</span></span>
+        <span class="line"><span class="cmd">/graphify</span> <span class="arg">query</span> <span class="str">"your query here"</span></span>
+        <span class="line"><span class="cmd">/deeprefine</span></span>
+      </div>
+    </section>
 
-# 2. Enter the directory
-cd DeepRefine-Skill
+    <section id="commands">
+      <h2>Core Commands</h2>
+      <p class="sub">Run from your KB project root (where <code>graphify-out/graph.json</code> exists).</p>
+      <h3>CLI refine (FAISS)</h3>
+      <table class="command-table">
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>deeprefine history add --query "..."</code></td>
+            <td>Record a query</td>
+          </tr>
+          <tr>
+            <td><code>deeprefine history list</code></td>
+            <td>List history</td>
+          </tr>
+          <tr>
+            <td><code>deeprefine history list --pending</code></td>
+            <td>Unrefined only</td>
+          </tr>
+          <tr>
+            <td><code>deeprefine refine</code></td>
+            <td>Refine all pending</td>
+          </tr>
+          <tr>
+            <td><code>deeprefine refine --query "..."</code></td>
+            <td>Refine one query</td>
+          </tr>
+          <tr>
+            <td><code>deeprefine refine --rebuild-index</code></td>
+            <td>Rebuild FAISS first</td>
+          </tr>
+          <tr>
+            <td><code>deeprefine index --rebuild</code></td>
+            <td>Rebuild FAISS cache only</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-# 3. Install dependencies
-pip install -r requirements.txt</code></pre>
+    <section>
+      <h2>What It Produces</h2>
+      <p class="sub">Structured artifacts for reproducibility, auditing, and iterative graph improvements.</p>
+      <div class="terminal">graphify-out/
+|—— graph.json
+└── .deeprefine/
+   |—— history.jsonl              # query history (CLI refine / loop finish)
+   |—— loop_trace_&lt;query_id&gt;.json # agent loop audit (required for apply)
+   |—— refinement_actions_*.txt   # &lt;refinement&gt; block from agent
+   |—— refinement_results_*.jsonl # run logs
+   |—— graph.json.bak             # backup before apply/refine
+   └── cache/reafiner.pkl         # FAISS cache (CLI mode only)</div>
+    </section>
 
-        <h2 id="quick-start">🚀 Quick Start</h2>
-        <p>You can run DeepRefine-Skill in different modes depending on your workflow. Below is an example of running it in Agent Mode:</p >
-        <pre><code>python main.py --mode agent \
-  --query "Explain the process of knowledge graph refinement" \
-  --model gpt-4o</code></pre>
+  </main>
+  <footer class="credits-wrap">
+    <div class="credits-inner">
+      <h3>Credits</h3>
+      <ul class="credits-list">
+        <li>
+          <a href="https://llm-wiki.net/" target="_blank" rel="noopener">llm-wiki.net</a>
+          - overall website style inspiration.
+        </li>
+        <li>
+          Andrej Karpathy - the LLM wiki concept and idea file.
+        </li>
+        <li>
+          <a href="https://github.com/safishamsi/graphify" target="_blank" rel="noopener">graphify</a>
+          - graph construction and query workflow foundation.
+        </li>
+      </ul>
+      <div class="meta-footer">
+        github.com/HKUST-KnowComp/DeepRefine-Skill · MIT License<br>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var toggle = document.getElementById("themeToggle");
+      var key = "deeprefine-theme";
+      var saved = localStorage.getItem(key);
+      var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var theme = saved || (systemDark ? "dark" : "light");
 
-        <h2 id="commands">💻 Commands Overview</h2>
-        <p>Here are some of the primary flags you can use with our entry script:</p >
-        <table>
-            <thead>
-                <tr>
-                    <th>Argument</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>--mode</code></td>
-                    <td>String</td>
-                    <td>Set execution mode: <code>agent</code> or <code>cli</code>.</td>
-                </tr>
-                <tr>
-                    <td><code>--query</code></td>
-                    <td>String</td>
-                    <td>The input task or query to be processed.</td>
-                </tr>
-                <tr>
-                    <td><code>--model</code></td>
-                    <td>String</td>
-                    <td>LLM engine to use (e.g., <code>gpt-4o</code>, <code>claude-3</code>).</td>
-                </tr>
-            </tbody>
-        </table>
+      function applyTheme(mode) {
+        root.setAttribute("data-theme", mode);
+        toggle.textContent = mode === "dark" ? "☀ Light" : "🌙 Dark";
+      }
 
-        <br><br>
-        <p style="color: #8b949e; font-size: 0.9em; border-top: 1px solid #30363d; padding-top: 20px;">
-            © 2024 HKUST-KnowComp. Created with DeepRefine-Skill.
-        </p >
-    </main>
-
+      applyTheme(theme);
+      toggle.addEventListener("click", function () {
+        theme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        localStorage.setItem(key, theme);
+        applyTheme(theme);
+      });
+    })();
+  </script>
 </body>
 </html>
