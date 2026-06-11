@@ -269,6 +269,25 @@
       display: inline-block;
       font-size: 0.95rem;
     }
+    :root[data-theme="light"] .command-table {
+      background: #ffffff;
+      border-color: rgba(87, 108, 150, 0.22);
+      box-shadow: 0 12px 28px rgba(28, 42, 68, 0.06);
+    }
+    :root[data-theme="light"] .command-table th,
+    :root[data-theme="light"] .command-table td {
+      border-color: rgba(87, 108, 150, 0.2);
+    }
+    :root[data-theme="light"] .command-table th {
+      background: #f1f5fb;
+      color: #17233b;
+    }
+    :root[data-theme="light"] .command-table tbody tr:nth-child(even) {
+      background: #f8fafd;
+    }
+    :root[data-theme="light"] .command-table td:last-child {
+      color: #4c5f7d;
+    }
 
     .steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
     .step {
