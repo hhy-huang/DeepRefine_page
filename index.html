@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepRefine-Skill | Documentation</title>
+    <style>
+        /* 全局极简/暗黑主题变量 */
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --heading-color: #e6edf3;
+            --sidebar-bg: #010409;
+            --border-color: #30363d;
+            --accent-color: #58a6ff;
+            --code-bg: #161b22;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            line-height: 1.6;
+        }
+
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            font-size: 1.2rem;
+            color: var(--heading-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar li { margin-bottom: 12px; font-size: 0.95rem; }
+
+        /* 主体内容区 */
+        .main-content {
+            margin-left: 260px;
+            padding: 50px;
+            max-width: 900px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h1, h2, h3 {
+            color: var(--heading-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3em;
+            margin-top: 1.5em;
+        }
+        h1 { margin-top: 0; font-size: 2.2rem; }
+        
+        /* 代码块样式 */
+        code {
+            background-color: var(--code-bg);
+            padding: 0.2em 0.4em;
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+        pre code { background-color: transparent; padding: 0; }
+
+        /* 按钮与表格 */
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: #238636;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .badge:hover { text-decoration: none; background-color: #2ea043; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; }
+        th { background-color: var(--code-bg); color: var(--heading-color); }
+    </style>
+</head>
+<body>
+
+    <!-- 侧边导航栏 -->
+    <nav class="sidebar">
+        <h2>⚙️ DeepRefine-Skill</h2>
+        <ul>
+            <li><a href=" ">About Project</a ></li>
+            <li><a href="#installation">Installation</a ></li>
+            <li><a href="#quick-start">Quick Start</a ></li>
+            <li><a href="#commands">Commands Overview</a ></li>
+            <li style="margin-top: 30px;">
+                <a href="https://github.com/HKUST-KnowComp/DeepRefine-Skill" target="_blank">
+                    ↗ View on GitHub
+                </a >
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 核心文档内容 -->
+    <main class="main-content">
+        <h1 id="about">DeepRefine-Skill</h1>
+        <p>An agent skill to evolve the quality of <strong>LLM-Wiki (Graphify)</strong> at test time. Maintained by HKUST-KnowComp.</p >
+        <a href="https://github.com/HKUST-KnowComp/DeepRefine-Skill" class="badge">Star us on GitHub</a >
+
+        <h2 id="installation">📦 Installation</h2>
+        <p>Follow these steps to set up the repository on your local machine:</p >
+        <pre><code># 1. Clone the repository
+git clone https://github.com/HKUST-KnowComp/DeepRefine-Skill.git
+
+# 2. Enter the directory
+cd DeepRefine-Skill
+
+# 3. Install dependencies
+pip install -r requirements.txt</code></pre>
+
+        <h2 id="quick-start">🚀 Quick Start</h2>
+        <p>You can run DeepRefine-Skill in different modes depending on your workflow. Below is an example of running it in Agent Mode:</p >
+        <pre><code>python main.py --mode agent \
+  --query "Explain the process of knowledge graph refinement" \
+  --model gpt-4o</code></pre>
+
+        <h2 id="commands">💻 Commands Overview</h2>
+        <p>Here are some of the primary flags you can use with our entry script:</p >
+        <table>
+            <thead>
+                <tr>
+                    <th>Argument</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>--mode</code></td>
+                    <td>String</td>
+                    <td>Set execution mode: <code>agent</code> or <code>cli</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>--query</code></td>
+                    <td>String</td>
+                    <td>The input task or query to be processed.</td>
+                </tr>
+                <tr>
+                    <td><code>--model</code></td>
+                    <td>String</td>
+                    <td>LLM engine to use (e.g., <code>gpt-4o</code>, <code>claude-3</code>).</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br><br>
+        <p style="color: #8b949e; font-size: 0.9em; border-top: 1px solid #30363d; padding-top: 20px;">
+            © 2024 HKUST-KnowComp. Created with DeepRefine-Skill.
+        </p >
+    </main>
+
+</body>
+</html>
